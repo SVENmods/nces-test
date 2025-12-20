@@ -1,0 +1,34 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+	theme: light, dark;
+	--base-content: black;
+}
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+
+:root {
+	font-size: 16px;
+}
+html {
+	height: auto;
+	scroll-behavior: smooth;
+	width: 100%;
+}
+html,
+body {
+	min-width: 320px;
+}
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+main,
+#root {
+	flex-grow: 1;
+	width: 100%;
+	min-width: 320px;
+	display: flex;
+	flex-direction: column;
+}
