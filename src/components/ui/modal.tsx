@@ -1,9 +1,11 @@
 import { forwardRef } from 'react'
 import type { Task } from '../../types'
-import Input from './form/input'
-import Textarea from './form/textarea'
-import Select from './form/selectStatus'
-import RadioGroup from './form/radioGroup'
+import Input from './form/Input'
+import Textarea from './form/Textarea'
+import Select from './form/SelectStatus'
+import RadioGroup from './form/RadioGroup'
+import DatePicker from './form/DatePicker'
+import MultiSelect from './form/MultiSelect'
 
 interface Props {
 	editTask?: boolean
@@ -14,7 +16,7 @@ const Modal = forwardRef<HTMLDialogElement, Props>(({ editTask = false, task }, 
 	return (
 		<>
 			<dialog ref={ref} id='create-task-modal' className='modal'>
-				<div className='modal-box'>
+				<div className='w-full max-w-5xl h-[70%] modal-box'>
 					<form method='dialog'>
 						{/* if there is a button in form, it will close the modal */}
 						<button className='top-2 right-2 absolute btn btn-sm btn-circle btn-ghost'>✕</button>
@@ -62,6 +64,12 @@ const Modal = forwardRef<HTMLDialogElement, Props>(({ editTask = false, task }, 
 							</div>
 							<div className='mt-4.5'>
 								<RadioGroup />
+							</div>
+							<div className='mt-4.5'>
+								<DatePicker />
+							</div>
+							<div className='mt-4.5'>
+								<MultiSelect />
 							</div>
 						</div>
 						<button type='submit'>Create Task</button>
