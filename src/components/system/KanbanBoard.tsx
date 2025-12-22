@@ -210,7 +210,7 @@ const KanbanBoard = () => {
 	}
 
 	return (
-		<div className='flex w-full min-h-screen overflow-x-auto overflow-y-hidden'>
+		<div className='flex w-full overflow-x-auto overflow-y-hidden'>
 			<DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragOver={onDragOver}>
 				<div className='flex lg:flex-row flex-col gap-4 w-full'>
 					<SortableContext items={columnsId}>
