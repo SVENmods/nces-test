@@ -1,7 +1,7 @@
 import cls from 'classnames'
 import type { TextInputProps } from '../../../types'
 
-const Textarea = ({ className, placeholder, id, maxLength, title }: TextInputProps) => {
+const Textarea = ({ className, placeholder, id, maxLength, title, name }: TextInputProps) => {
 	return (
 		<>
 			<label className='floating-label'>
@@ -11,6 +11,7 @@ const Textarea = ({ className, placeholder, id, maxLength, title }: TextInputPro
 					placeholder={placeholder}
 					id={id}
 					maxLength={maxLength}
+					name={name}
 				></textarea>
 			</label>
 		</>

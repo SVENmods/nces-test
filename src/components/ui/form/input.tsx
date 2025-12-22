@@ -12,6 +12,7 @@ const Input = ({
 	title,
 	id,
 	validatorText,
+	name,
 }: TextInputProps) => {
 	return (
 		<>
@@ -26,6 +27,7 @@ const Input = ({
 					pattern={pattern}
 					title={title}
 					id={id}
+					name={name}
 				/>
 				<p className='validator-hint'>{validatorText}</p>
 			</label>

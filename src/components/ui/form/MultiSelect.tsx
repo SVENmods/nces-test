@@ -1,16 +1,30 @@
 import Select from 'react-select'
 import { tagOptions } from '../../../data'
+import type { TextInputProps } from '../../../types'
 
-const MultiSelect = () => {
+interface MultiSelectProps extends TextInputProps {
+	onTagsChange?: (tags: string[]) => void
+}
+
+const MultiSelect = ({ name, onTagsChange, required }: MultiSelectProps) => {
 	return (
 		<>
+			<span className='font-normal text-sm'>Tags</span>
 			<Select
-				// defaultValue={[colourOptions[2], colourOptions[3]]}
 				isMulti
-				name='colors'
+				name={name}
 				options={tagOptions}
-				className='basic-multi-select'
+				className='mt-2 basic-multi-select'
 				classNamePrefix='select'
+				onChange={(selectedOptions) => {
+					if (onTagsChange) {
+						const values = selectedOptions
+							? (selectedOptions as { value: string; label: string }[]).map((opt) => opt.value)
+							: []
+						onTagsChange(values)
+					}
+				}}
+				required={required}
 			/>
 		</>
 	)

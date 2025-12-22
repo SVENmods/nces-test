@@ -32,26 +32,64 @@ const KanbanBoard = () => {
 		})
 	)
 
+	// mapping between columns and statuses
+	const columnToStatusMap: Record<Id, 'todo' | 'inProgress' | 'done'> = {
+		1: 'todo',
+		2: 'inProgress',
+		3: 'done',
+	}
+
+	// mapping between statuses and columns
+	const statusToColumnMap: Record<'todo' | 'inProgress' | 'done', Id> = {
+		todo: 1,
+		inProgress: 2,
+		done: 3,
+	}
+
 	function generateId() {
 		return Math.floor(Math.random() * 1000) + 1
 	}
 
-	const createTaskModalRef = useRef<HTMLDialogElement>(null)
+	const taskModalRef = useRef<HTMLDialogElement>(null)
+	const [selectedColumnId, setSelectedColumnId] = useState<Id | null>(null)
 
-	function createTask(columnId: Id) {
-		createTaskModalRef.current?.showModal()
+	function openTaskModal(columnId?: Id) {
+		if (columnId) {
+			setSelectedColumnId(columnId)
+		}
+		taskModalRef.current?.showModal()
 	}
 
-	function setNewTask(columnId: Id) {
+	function createNewTask(
+		columnId: Id,
+		data: {
+			title: string
+			description: string
+			status: string
+			priority: string
+			tags: string[]
+			deadline: string
+		}
+	) {
+		// define status of task from form
+		const taskStatus = (data.status || columnToStatusMap[columnId] || 'todo') as 'todo' | 'inProgress' | 'done'
+
+		// define original status of column
+		const defaultStatus = columnToStatusMap[columnId] || 'todo'
+
+		// if status changed by user, find column with corresponding status
+		// or use original column
+		const targetColumnId = taskStatus !== defaultStatus ? statusToColumnMap[taskStatus] : columnId
+
 		const newTask: Task = {
 			id: generateId(),
-			columnId,
-			description: `Task №${tasks.length + 1} description`,
-			title: `Task №${tasks.length + 1}`,
-			status: 'todo',
-			priority: 'low',
-			deadline: new Date().toISOString(),
-			tags: ['tag1', 'tag2'],
+			columnId: targetColumnId,
+			description: data.description,
+			title: data.title,
+			status: taskStatus,
+			priority: data.priority as 'low' | 'medium' | 'high',
+			deadline: data.deadline,
+			tags: data.tags,
 			createdAt: new Date().toISOString(),
 			updatedAt: new Date().toISOString(),
 			number: tasks.length + 1,
@@ -64,16 +102,32 @@ const KanbanBoard = () => {
 		setTasks(newTasks)
 	}
 
-	function updateTask(id: Id, content: string) {
+	function updateTask(id: Id) {
 		const newTasks = tasks.map((task) => {
 			if (task.id !== id) return task
-			return { ...task, content }
+			return { ...task }
 		})
 		setTasks(newTasks)
 	}
 
+	function updateTaskStatus(id: Id, status: string) {
+		const newStatus = status as 'todo' | 'inProgress' | 'done'
+		const targetColumnId = statusToColumnMap[newStatus]
+
+		setTasks((tasks) => {
+			return tasks.map((task) => {
+				if (task.id !== id) return task
+				return {
+					...task,
+					status: newStatus,
+					columnId: targetColumnId,
+					updatedAt: new Date().toISOString(),
+				}
+			})
+		})
+	}
+
 	function onDragStart(event: DragStartEvent) {
-		console.log('Drag Start', event)
 		if (event.active.data.current?.type === 'Column') {
 			setActiveColumn(event.active.data.current.column)
 			return
@@ -90,9 +144,17 @@ const KanbanBoard = () => {
 		const { active, over } = event
 		if (!over) return
 
+		// Only move columns if we're dragging a column, not a task
+		const isActiveAColumn = active.data.current?.type === 'Column'
+		if (!isActiveAColumn) return
+
 		const activeColumnId = active.id
 		const overColumnId = over.id
 		if (activeColumnId === overColumnId) return
+
+		// Only move columns if we're dropping over another column
+		const isOverAColumn = over.data.current?.type === 'Column'
+		if (!isOverAColumn) return
 
 		setColumns((columns) => {
 			const activeColumnIndex = columns.findIndex((col) => col.id === activeColumnId)
@@ -119,7 +181,13 @@ const KanbanBoard = () => {
 			setTasks((tasks) => {
 				const activeIndex = tasks.findIndex((t) => t.id === activeId)
 				const overIndex = tasks.findIndex((t) => t.id === overId)
-				tasks[activeIndex].columnId = tasks[overIndex].columnId
+				const targetColumnId = tasks[overIndex].columnId
+				const targetStatus = columnToStatusMap[targetColumnId]
+
+				tasks[activeIndex].columnId = targetColumnId
+				tasks[activeIndex].status = targetStatus
+				tasks[activeIndex].updatedAt = new Date().toISOString()
+
 				return arrayMove(tasks, activeIndex, overIndex)
 			})
 		}
@@ -129,7 +197,13 @@ const KanbanBoard = () => {
 		if (isActiveATask && isOverAColumn) {
 			setTasks((tasks) => {
 				const activeIndex = tasks.findIndex((t) => t.id === activeId)
-				tasks[activeIndex].columnId = overId
+				const targetColumnId = overId
+				const targetStatus = columnToStatusMap[targetColumnId]
+
+				tasks[activeIndex].columnId = targetColumnId
+				tasks[activeIndex].status = targetStatus
+				tasks[activeIndex].updatedAt = new Date().toISOString()
+
 				return arrayMove(tasks, activeIndex, activeIndex)
 			})
 		}
@@ -144,11 +218,12 @@ const KanbanBoard = () => {
 							<ColumnContainer
 								key={col.id}
 								column={col}
-								createTask={createTask}
+								openTaskModal={() => openTaskModal(col.id)}
 								tasks={tasks.filter((task) => task.columnId === col.id)}
 								deleteTask={deleteTask}
 								updateTask={updateTask}
-								setNewTask={setNewTask}
+								updateTaskStatus={updateTaskStatus}
+								createTask={createNewTask}
 							/>
 						))}
 					</SortableContext>
@@ -158,21 +233,27 @@ const KanbanBoard = () => {
 						{activeColumn && (
 							<ColumnContainer
 								column={activeColumn}
-								createTask={createTask}
+								openTaskModal={openTaskModal}
 								tasks={tasks.filter((task) => task.columnId === activeColumn.id)}
 								deleteTask={deleteTask}
 								updateTask={updateTask}
-								setNewTask={setNewTask}
+								updateTaskStatus={updateTaskStatus}
+								createTask={createNewTask}
 							/>
 						)}
 						{activeTask && (
-							<TaskCard task={activeTask} deleteTask={deleteTask} updateTask={updateTask} />
+							<TaskCard
+								task={activeTask}
+								deleteTask={deleteTask}
+								updateTask={updateTask}
+								updateTaskStatus={updateTaskStatus}
+							/>
 						)}
 					</DragOverlay>,
 					document.body
 				)}
 			</DndContext>
-			<Modal ref={createTaskModalRef} task={activeTask} />
+			<Modal ref={taskModalRef} task={activeTask} createNewTask={createNewTask} columnId={selectedColumnId} />
 		</div>
 	)
 }

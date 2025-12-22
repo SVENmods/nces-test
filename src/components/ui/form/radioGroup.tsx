@@ -1,6 +1,7 @@
 import cls from 'classnames'
+import type { TextInputProps } from '../../../types'
 
-const RadioGroup = () => {
+const RadioGroup = ({ name }: TextInputProps) => {
 	const radioClasses = 'hidden radio w-[0.1px] h-[0.1px]'
 	const labelClasses = 'cursor-pointer border rounded-lg p-2 transition-all duration-300'
 
@@ -19,7 +20,7 @@ const RadioGroup = () => {
 						low
 						<input
 							type='radio'
-							name='priority'
+							name={name}
 							className={cls(radioClasses, '')}
 							aria-label='low'
 							value='low'
@@ -39,7 +40,7 @@ const RadioGroup = () => {
 						medium
 						<input
 							type='radio'
-							name='priority'
+							name={name}
 							className={radioClasses}
 							aria-label='medium'
 							value='medium'
@@ -57,7 +58,7 @@ const RadioGroup = () => {
 						high
 						<input
 							type='radio'
-							name='priority'
+							name={name}
 							className={radioClasses}
 							aria-label='high'
 							value='high'

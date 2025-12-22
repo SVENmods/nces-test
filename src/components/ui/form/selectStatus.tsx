@@ -1,18 +1,26 @@
 import cls from 'classnames'
-interface Props {
-	className?: string
-	defaultValue?: string
+import type { TextInputProps } from '../../../types'
+interface Props extends TextInputProps {
 	options: { label: string; value: string }[]
-	title?: string
-	id: string
+	defaultValue?: string
+	value?: string
+	floatLabel?: boolean
+	onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
-const Select = ({ className, defaultValue, options, title, id }: Props) => {
+const Select = ({ className, defaultValue, value, options, title, id, name, floatLabel, onChange }: Props) => {
 	return (
 		<>
 			<label className='floating-label'>
-				<span>{title}</span>
-				<select defaultValue={defaultValue} className={cls('select', className)} id={id}>
+				{(floatLabel && <span>{title}</span>) || null}
+				<select
+					defaultValue={defaultValue}
+					value={value}
+					className={cls('select', className)}
+					id={id}
+					name={name}
+					onChange={onChange}
+				>
 					{/* {title && (
 						<option disabled={true} selected>
 							{title}

@@ -27,7 +27,7 @@ export type Tag = {
 export type TextInputProps = {
     label?: string;
 	placeholder?: string;
-	type: string;
+	type?: string;
 	className?: string;
 	minLength?: number;
 	maxLength?: number;
@@ -36,4 +36,5 @@ export type TextInputProps = {
 	id: string;
 	title?: string;
 	validatorText?: string;
+    name?: string;
 }

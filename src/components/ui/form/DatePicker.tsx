@@ -1,8 +1,17 @@
 import { useState } from 'react'
 import { DayPicker } from 'react-day-picker'
+import type { TextInputProps } from '../../../types'
 
-const DatePicker = () => {
-	const [date, setDate] = useState<Date | undefined>()
+interface DatePickerProps extends TextInputProps {
+	selectedDate?: Date | undefined
+	onDateChange?: (date: Date | undefined) => void
+}
+
+const DatePicker = ({ name, id, selectedDate: externalDate, onDateChange, required }: DatePickerProps) => {
+	const [internalDate, setInternalDate] = useState<Date | undefined>()
+	const date = externalDate !== undefined ? externalDate : internalDate
+	const setDate = onDateChange || setInternalDate
+
 	return (
 		<>
 			<div className=''>
@@ -13,6 +22,8 @@ const DatePicker = () => {
 						className='input-border w-full input'
 						style={{ anchorName: '--rdp' } as React.CSSProperties}
 						type='button'
+						name={name}
+						id={id}
 					>
 						{date ? date.toLocaleDateString() : 'Pick a date'}
 					</button>
@@ -27,10 +38,10 @@ const DatePicker = () => {
 							mode='single'
 							selected={date}
 							onSelect={setDate}
-							required
+							required={required}
 							timeZone='Europe/Minsk'
-							startMonth={new Date()}
-							disabled={{ before: new Date() }}
+							// startMonth={new Date()}
+							// disabled={{ before: new Date() }}
 						/>
 					</div>
 				</div>

@@ -6,7 +6,7 @@ export interface TagOption {
 
 export const tagOptions: TagOption[] = [
      { value: 'frontend', label: 'Frontend',},
-     { value: 'backend', label: 'Backend',  isDisabled: true },
+     { value: 'backend', label: 'Backend',   },
      { value: 'database', label: 'Database'  },
      { value: 'devops', label: 'DevOps'},
      { value: 'design', label: 'Design'  },

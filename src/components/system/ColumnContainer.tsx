@@ -9,14 +9,25 @@ import TaskCard from './TaskCard'
 interface Props {
 	column: Column
 	tasks: Task[]
-	createTask: (columnId: Id) => void
 	deleteTask: (id: Id) => void
-	updateTask: (id: Id, content: string) => void
-	setNewTask: (columnId: Id) => void
+	updateTask: (id: Id) => void
+	updateTaskStatus: (id: Id, status: string) => void
+	createTask: (
+		columnId: Id,
+		data: {
+			title: string
+			description: string
+			status: 'todo' | 'inProgress' | 'done'
+			priority: 'low' | 'medium' | 'high'
+			tags: string[]
+			deadline: string
+		}
+	) => void
+	openTaskModal: () => void
 }
 
 const ColumnContainer = (props: Props) => {
-	const { column, createTask, tasks, deleteTask, updateTask } = props
+	const { column, openTaskModal, tasks, deleteTask, updateTask, updateTaskStatus } = props
 	const tasksIds = useMemo(() => {
 		return tasks.map((task) => task.id)
 	}, [tasks])
@@ -43,9 +54,9 @@ const ColumnContainer = (props: Props) => {
 		<div
 			ref={setNodeRef}
 			style={style}
-			className='flex flex-col bg-base-300 rounded-md w-full h-[500px] max-h-[500px]'
+			className='flex flex-col bg-base-300 rounded-md w-full h-fit max-h-[90vh]'
 		>
-			{/* Column Title*/}
+			{/* column title*/}
 			<div
 				{...attributes}
 				{...listeners}
@@ -58,19 +69,25 @@ const ColumnContainer = (props: Props) => {
 				</div>
 			</div>
 
-			{/* Column Task Container*/}
+			{/* column task container*/}
 			<div className='flex flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto grow'>
 				<SortableContext items={tasksIds}>
 					{tasks.map((task) => (
-						<TaskCard key={task.id} task={task} deleteTask={deleteTask} updateTask={updateTask} />
+						<TaskCard
+							key={task.id}
+							task={task}
+							deleteTask={deleteTask}
+							updateTask={updateTask}
+							updateTaskStatus={updateTaskStatus}
+						/>
 					))}
 				</SortableContext>
 			</div>
 
-			{/* Column Footer*/}
+			{/* column footer*/}
 			<button
 				onClick={() => {
-					createTask(column.id)
+					openTaskModal()
 				}}
 				className='flex items-center gap-2 hover:bg-mainBackgroundColor active:bg-black p-2 border-columnBackgroundColor border-x-columnBackgroundColor rounded-md hover:text-rose-500 border2'
 			>
