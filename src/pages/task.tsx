@@ -16,7 +16,7 @@ import {
 } from '../utils/storage'
 import { calcTimeToDeadline, formatDate } from '../utils/dateUtils'
 
-const Task = () => {
+const TaskPage = () => {
 	const { id } = useParams<{ id: string }>()
 	const navigate = useNavigate()
 	const [task, setTask] = useState<Task | null>(null)
@@ -291,4 +291,4 @@ const Task = () => {
 	)
 }
 
-export default Task
+export default TaskPage

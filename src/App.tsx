@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import Home from './pages/home'
 import CreateTask from './pages/createTask'
-import Task from './pages/Task'
+import TaskPage from './pages/Task'
 
 function App() {
 	return (
@@ -10,7 +10,7 @@ function App() {
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/createTask' element={<CreateTask />} />
-				<Route path='/tasks/:id' element={<Task />} />
+				<Route path='/tasks/:id' element={<TaskPage />} />
 			</Routes>
 		</div>
 	)

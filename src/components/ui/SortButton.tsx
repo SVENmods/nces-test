@@ -39,7 +39,7 @@ const SortButton = ({ sortType, currentSort, onSortChange }: Props) => {
 				value={currentValue}
 				onChange={handleChange}
 				className='w-full'
-				floatLabel={true}
+				floatLabel={'Sort by'}
 			/>
 		</div>
 	)
