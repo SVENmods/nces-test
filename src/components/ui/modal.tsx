@@ -145,6 +145,17 @@ const Modal = forwardRef<HTMLDialogElement, Props>(
 			// Validation errors
 			const errors: typeof validationErrors = {}
 
+			// Validation title
+			if (!title || title.length === 0) {
+				errors.title = 'Title is required'
+			} else if (title.length < 5) {
+				errors.title = 'Title must be more than 5 characters'
+			} else if (title.length > 255) {
+				errors.title = 'Title must be less than 255 characters'
+			} else if (!/^[a-zA-Z0-9А-Яа-я ]+$/.test(title)) {
+				errors.title = 'Title must contain only letters, numbers, and spaces'
+			}
+
 			// Validation deadline
 			if (!selectedDate) {
 				errors.deadline = 'Please select a deadline date'
@@ -221,7 +232,7 @@ const Modal = forwardRef<HTMLDialogElement, Props>(
 						<h3 className='font-bold text-lg'>
 							{editTask && task ? `Edit Task ${task.number}` : 'Create Task'}
 						</h3>
-						<form ref={formRef} className='mt-4' onSubmit={handleSubmit}>
+						<form ref={formRef} className='mt-4' onSubmit={handleSubmit} noValidate>
 							<div className='flex flex-col'>
 								<div>
 									<Input
@@ -235,9 +246,28 @@ const Modal = forwardRef<HTMLDialogElement, Props>(
 										name='title'
 										pattern='^[a-zA-Z0-9А-Яа-я ]+$'
 										title='Title must be more than 5 characters and less than 255 characters and contain only letters, numbers, and spaces.'
-										validatorText='Title must be more than 5 characters and less than 255 characters and contain only letters, numbers, and spaces.'
 										maxLength={255}
+										onChange={(e) => {
+											const value = e.target.value.trim()
+											if (
+												value &&
+												value.length >= 5 &&
+												value.length <= 255 &&
+												/^[a-zA-Z0-9А-Яа-я ]+$/.test(value)
+											) {
+												setValidationErrors((prev) => {
+													const newErrors = { ...prev }
+													delete newErrors.title
+													return newErrors
+												})
+											}
+										}}
 									/>
+									{validationErrors.title && (
+										<p className='mt-1 text-[0.75rem] text-error'>
+											{validationErrors.title}
+										</p>
+									)}
 								</div>
 								<div className='mt-2'>
 									<Textarea

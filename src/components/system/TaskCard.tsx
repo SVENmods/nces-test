@@ -71,15 +71,15 @@ const TaskCard = ({ task, deleteTask, updateTask, updateTaskStatus, onTagClick, 
 			ref={setNodeRef}
 			style={style}
 			className={cls(
-				'relative flex flex-col bg-base-200 p-3 border-2 border-transparent rounded-xl hover:ring-2 hover:ring-gray-500 hover:ring-inset h-fit transition-all duration-300 cursor-grab ',
+				'relative flex flex-col bg-base-200 p-3 pb-4 border-2 border-transparent rounded-xl hover:ring-2 hover:ring-gray-500 hover:ring-inset h-fit transition-all duration-300 cursor-grab ',
 				task.status === 'todo' && 'border-l-red-500',
 				task.status === 'inProgress' && 'border-l-yellow-500',
 				task.status === 'done' && 'border-l-green-500'
 			)}
 		>
 			<div>
-				<div className='flex flex-row justify-between items-start gap-2'>
-					<Link to={`/tasks/${task.id}`} className='block w-full'>
+				<div className='flex flex-row flex-wrap justify-between items-start gap-2 w-full'>
+					<Link to={`/tasks/${task.id}`} className='block'>
 						<span
 							className='tooltip-bottom font-bold hover:text-gray-500 transition-all duration-300 tooltip'
 							data-tip={'Open task'}
@@ -89,7 +89,7 @@ const TaskCard = ({ task, deleteTask, updateTask, updateTaskStatus, onTagClick, 
 					</Link>
 					<div
 						className={cls(
-							'px-2 py-1 rounded-md text-[.75rem] text-white',
+							'px-2 py-1 rounded-md text-[.75rem] text-white w-fit',
 							task.priority === 'low'
 								? 'bg-green-700'
 								: task.priority === 'medium'

@@ -15,6 +15,7 @@ const Input = ({
 	name,
 	value,
 	onChange,
+	maxLength,
 }: TextInputProps) => {
 	return (
 		<>
@@ -35,6 +36,7 @@ const Input = ({
 					name={name}
 					value={value}
 					onChange={onChange}
+					maxLength={maxLength}
 				/>
 				{validatorText && <p className='validator-hint'>{validatorText}</p>}
 			</label>
