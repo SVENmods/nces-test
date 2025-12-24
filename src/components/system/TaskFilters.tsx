@@ -63,7 +63,7 @@ const TaskFilters = ({ filters, onFiltersChange }: TaskFiltersProps) => {
 					floatLabel={'Priority'}
 				/>
 			</div>
-			<div className='min-w-[200px]'>
+			<div className='min-w-[200px] max-w-[400px]'>
 				<MultiSelect
 					id='filter-tags'
 					name='filter-tags'

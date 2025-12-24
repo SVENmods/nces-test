@@ -80,8 +80,11 @@ const TaskCard = ({ task, deleteTask, updateTask, updateTaskStatus, onTagClick, 
 			<div>
 				<div className='flex flex-row justify-between items-start gap-2'>
 					<Link to={`/tasks/${task.id}`} className='block w-full'>
-						<span className='font-bold hover:text-gray-500 transition-all duration-300'>
-							{task.title}
+						<span
+							className='tooltip-bottom font-bold hover:text-gray-500 transition-all duration-300 tooltip'
+							data-tip={'Open task'}
+						>
+							{task.title.length > 30 ? task.title.slice(0, 30) + '...' : task.title}
 						</span>
 					</Link>
 					<div

@@ -330,7 +330,7 @@ const Modal = forwardRef<HTMLDialogElement, Props>(
 									)}
 								</div>
 							</div>
-							<button type='submit' className='mt-6 rounded-lg btn btn-base-content'>
+							<button type='submit' className='mt-6 rounded-lg btn btn-primary'>
 								{editTask ? 'Update Task' : 'Create Task'}
 							</button>
 						</form>
