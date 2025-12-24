@@ -101,7 +101,7 @@ const TaskCard = ({ task, deleteTask, updateTask, updateTaskStatus, onTagClick, 
 					</div>
 				</div>
 				<div className='flex flex-col gap-2 mt-3'>
-					{task.description && <div className='break-all line-clamp-3'>{task.description}</div>}
+					{task.description && <div className='line-clamp-3'>{task.description}</div>}
 					<div>
 						<Select
 							options={[

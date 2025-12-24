@@ -162,14 +162,16 @@ const TaskPage = () => {
 
 			<div className='bg-base-200 shadow-lg mt-6 p-6 rounded-xl'>
 				<div className='flex md:flex-row flex-col md:justify-between md:items-start gap-4'>
-					<div className='w-full'>
+					<div className='w-full overflow-hidden'>
 						{/* <span className='block border border-base-content rounded-lg badge badge-lg'>
 							#{task.number}
 						</span> */}
 						<div className='flex items-center gap-3 mt-2'>
 							<h1 className='font-bold text-3xl'>{task.title}</h1>
 						</div>
-						{task.description && <p className='mt-2 text-gray-600 break-all'>{task.description}</p>}
+						{task.description && (
+							<p className='mt-2 text-gray-600 break-normal'>{task.description}</p>
+						)}
 					</div>
 					<div className='flex items-center gap-3'>
 						<div
