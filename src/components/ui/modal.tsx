@@ -221,7 +221,7 @@ const Modal = forwardRef<HTMLDialogElement, Props>(
 						<h3 className='font-bold text-lg'>
 							{editTask && task ? `Edit Task ${task.number}` : 'Create Task'}
 						</h3>
-						<form ref={formRef} className='mt-4' onSubmit={handleSubmit} noValidate>
+						<form ref={formRef} className='mt-4' onSubmit={handleSubmit}>
 							<div className='flex flex-col'>
 								<div>
 									<Input
@@ -233,9 +233,9 @@ const Modal = forwardRef<HTMLDialogElement, Props>(
 										required={true}
 										id='title'
 										name='title'
-										pattern='^[a-zA-Z0-9А-Яа-я]+$'
-										title='Title must be more than 5 characters and less than 255 characters.'
-										validatorText='Title must be more than 5 characters and less than 255 characters.'
+										pattern='^[a-zA-Z0-9А-Яа-я ]+$'
+										title='Title must be more than 5 characters and less than 255 characters and contain only letters, numbers, and spaces.'
+										validatorText='Title must be more than 5 characters and less than 255 characters and contain only letters, numbers, and spaces.'
 										maxLength={255}
 									/>
 								</div>

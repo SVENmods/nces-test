@@ -145,7 +145,7 @@ const TaskPage = () => {
 	}
 
 	return (
-		<div className='mx-auto px-4 py-8 max-w-4xl container'>
+		<div className='mx-auto px-4 py-8 max-w-4xl overflow-x-hidden container'>
 			<button onClick={() => navigate('/')} className='rounded-lg btn btn-ghost'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
@@ -163,9 +163,9 @@ const TaskPage = () => {
 			<div className='bg-base-200 shadow-lg mt-6 p-6 rounded-xl'>
 				<div className='flex md:flex-row flex-col md:justify-between md:items-start gap-4'>
 					<div className='flex-1'>
-						<span className='block border border-base-content rounded-lg badge badge-lg'>
+						{/* <span className='block border border-base-content rounded-lg badge badge-lg'>
 							#{task.number}
-						</span>
+						</span> */}
 						<div className='flex items-center gap-3 mt-2'>
 							<h1 className='font-bold text-3xl'>{task.title}</h1>
 						</div>
