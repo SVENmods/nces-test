@@ -132,7 +132,7 @@ const ColumnContainer = (props: Props) => {
 				className='flex items-center gap-2 hover:bg-mainBackgroundColor active:bg-black p-2 border-columnBackgroundColor border-x-columnBackgroundColor rounded-md hover:text-rose-500 border2'
 			>
 				<PlusIcon />
-				Add Task
+				Add Task to {column.title}
 			</button>
 		</div>
 	)
