@@ -7,7 +7,7 @@ const Textarea = ({ className, placeholder, id, maxLength, title, name }: TextIn
 			<label className='floating-label'>
 				<span>{title}</span>
 				<textarea
-					className={cls('textarea', className)}
+					className={cls('textarea max-h-[200px]', className)}
 					placeholder={placeholder}
 					id={id}
 					maxLength={maxLength}

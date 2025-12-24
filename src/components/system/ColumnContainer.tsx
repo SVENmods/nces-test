@@ -91,7 +91,7 @@ const ColumnContainer = (props: Props) => {
 		<div
 			ref={setNodeRef}
 			style={style}
-			className='flex flex-col bg-base-300 rounded-md w-full h-fit max-h-[80vh] overflow-auto'
+			className='flex flex-col bg-base-300 rounded-md w-full h-fit max-h-[75vh] overflow-auto'
 		>
 			<div
 				{...attributes}

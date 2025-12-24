@@ -101,7 +101,7 @@ const TaskCard = ({ task, deleteTask, updateTask, updateTaskStatus, onTagClick, 
 					</div>
 				</div>
 				<div className='flex flex-col gap-2 mt-3'>
-					{task.description && <div className='line-clamp-3'>{task.description}</div>}
+					{task.description && <div className='break-all line-clamp-3'>{task.description}</div>}
 					<div>
 						<Select
 							options={[
@@ -177,7 +177,7 @@ const TaskCard = ({ task, deleteTask, updateTask, updateTaskStatus, onTagClick, 
 			</div>
 			<div
 				className={cls(
-					'right-2 bottom-2 absolute flex flex-row gap-2 transition-opacity duration-400 ease-in',
+					'flex flex-row justify-end gap-2 transition-opacity duration-400 ease-in',
 					mouseIsOver && 'opacity-100',
 					!mouseIsOver && 'opacity-0'
 				)}

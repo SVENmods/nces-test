@@ -209,7 +209,7 @@ const Modal = forwardRef<HTMLDialogElement, Props>(
 		return (
 			<>
 				<dialog ref={ref} id='create-task-modal' className='modal'>
-					<div className='w-full max-w-5xl h-[70%] modal-box'>
+					<div className='w-full max-w-5xl h-fit modal-box'>
 						<form method='dialog' onSubmit={resetForm}>
 							<button
 								className='top-2 right-2 absolute btn btn-sm btn-circle btn-ghost'

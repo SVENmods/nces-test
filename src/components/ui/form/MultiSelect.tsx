@@ -40,6 +40,7 @@ const MultiSelect = ({ name, onTagsChange, required, defaultValue, value, id }: 
 				}}
 				required={required}
 				closeMenuOnSelect={false}
+				menuPlacement='top'
 			/>
 		</>
 	)
