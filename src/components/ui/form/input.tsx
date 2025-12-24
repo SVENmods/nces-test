@@ -13,11 +13,16 @@ const Input = ({
 	id,
 	validatorText,
 	name,
+	value,
+	onChange,
 }: TextInputProps) => {
 	return (
 		<>
 			<label className='floating-label'>
-				<span>{label}</span>
+				<span>
+					{label}
+					{required && <span className='text-error'>*</span>}
+				</span>
 				<input
 					type={type}
 					placeholder={placeholder}
@@ -28,8 +33,10 @@ const Input = ({
 					title={title}
 					id={id}
 					name={name}
+					value={value}
+					onChange={onChange}
 				/>
-				<p className='validator-hint'>{validatorText}</p>
+				{validatorText && <p className='validator-hint'>{validatorText}</p>}
 			</label>
 		</>
 	)

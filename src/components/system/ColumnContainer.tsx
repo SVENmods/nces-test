@@ -1,10 +1,11 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import type { Column, Id } from '../../types'
-import { useSortable, SortableContext } from '@dnd-kit/sortable'
+import { useSortable, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import PlusIcon from './icons/PlusIcon'
 import type { Task } from '../../types'
 import TaskCard from './TaskCard'
+import SortButton, { type SortType, type SortDirection } from '../ui/SortButton'
 
 interface Props {
 	column: Column
@@ -24,13 +25,49 @@ interface Props {
 		}
 	) => void
 	openTaskModal: () => void
+	onTagClick?: (tag: string) => void
+	activeTags?: string[]
 }
 
 const ColumnContainer = (props: Props) => {
-	const { column, openTaskModal, tasks, deleteTask, updateTask, updateTaskStatus } = props
+	const { column, openTaskModal, tasks, deleteTask, updateTask, updateTaskStatus, onTagClick, activeTags } = props
+	const [sortState, setSortState] = useState<{ type: SortType; direction: SortDirection } | null>(null)
+
+	const sortedTasks = useMemo(() => {
+		if (!sortState || !sortState.direction) {
+			return tasks
+		}
+
+		const sorted = [...tasks].sort((a, b) => {
+			let comparison = 0
+
+			if (sortState.type === 'dateCreated') {
+				const dateA = new Date(a.createdAt).getTime()
+				const dateB = new Date(b.createdAt).getTime()
+				comparison = dateA - dateB
+			} else if (sortState.type === 'deadline') {
+				const dateA = new Date(a.deadline).getTime()
+				const dateB = new Date(b.deadline).getTime()
+				comparison = dateA - dateB
+			}
+
+			return sortState.direction === 'asc' ? comparison : -comparison
+		})
+
+		return sorted
+	}, [tasks, sortState])
+
 	const tasksIds = useMemo(() => {
-		return tasks.map((task) => task.id)
-	}, [tasks])
+		return sortedTasks.map((task) => task.id)
+	}, [sortedTasks])
+
+	const handleSortChange = (type: SortType, direction: SortDirection) => {
+		if (direction === null) {
+			setSortState(null)
+		} else {
+			setSortState({ type, direction })
+		}
+	}
 	const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
 		id: column.id,
 		data: { type: 'Column', column },
@@ -45,7 +82,7 @@ const ColumnContainer = (props: Props) => {
 			<div
 				ref={setNodeRef}
 				style={style}
-				className='flex flex-col bg-base-200 border-2 border-rose-500 rounded-md w-full w-min-[350px] h-[500px] max-h-[500px]'
+				className='flex flex-col bg-base-200 border-2 border-rose-500 rounded-md w-full w-min-[350px] max-h-[500px] overflow-hidden'
 			></div>
 		)
 	}
@@ -54,37 +91,40 @@ const ColumnContainer = (props: Props) => {
 		<div
 			ref={setNodeRef}
 			style={style}
-			className='flex flex-col bg-base-300 rounded-md w-full h-fit max-h-[90vh]'
+			className='flex flex-col bg-base-300 rounded-md w-full h-fit max-h-[80vh] overflow-auto'
 		>
-			{/* column title*/}
 			<div
 				{...attributes}
 				{...listeners}
-				className='flex justify-between items-center bg-mainBackgroundColor p-3 border-4 border-columnBackgroundColor rounded-b-none h-[60px] font-bold text-md cursor-grab'
+				className='flex xl:flex-row flex-col justify-between items-start gap-3 p-3 border rounded-lg font-bold text-md cursor-grab'
 			>
 				<div className='flex gap-2'>
-					<div className='flex justify-center items-center bg-columnBackgroundColor px-2.5 py-1 rounded-full text-sm'>
+					<div className='flex justify-center items-center px-2.5 py-1 rounded-full text-lg capitalize'>
 						{column.title}
 					</div>
 				</div>
+				<div className='flex gap-2'>
+					<SortButton sortType='dateCreated' currentSort={sortState} onSortChange={handleSortChange} />
+					<SortButton sortType='deadline' currentSort={sortState} onSortChange={handleSortChange} />
+				</div>
 			</div>
 
-			{/* column task container*/}
 			<div className='flex flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto grow'>
-				<SortableContext items={tasksIds}>
-					{tasks.map((task) => (
+				<SortableContext items={tasksIds} strategy={verticalListSortingStrategy}>
+					{sortedTasks.map((task) => (
 						<TaskCard
 							key={task.id}
 							task={task}
 							deleteTask={deleteTask}
 							updateTask={updateTask}
 							updateTaskStatus={updateTaskStatus}
+							onTagClick={onTagClick}
+							activeTags={activeTags}
 						/>
 					))}
 				</SortableContext>
 			</div>
 
-			{/* column footer*/}
 			<button
 				onClick={() => {
 					openTaskModal()

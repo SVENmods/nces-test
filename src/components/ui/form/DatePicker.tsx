@@ -15,7 +15,10 @@ const DatePicker = ({ name, id, selectedDate: externalDate, onDateChange, requir
 	return (
 		<>
 			<div className=''>
-				<span className='font-normal text-sm'>Deadline</span>
+				<span className='font-normal text-sm'>
+					Deadline
+					{required && <span className='text-error'>*</span>}
+				</span>
 				<div className='mt-2'>
 					<button
 						popoverTarget='rdp-popover'
@@ -40,8 +43,8 @@ const DatePicker = ({ name, id, selectedDate: externalDate, onDateChange, requir
 							onSelect={setDate}
 							required={required}
 							timeZone='Europe/Minsk'
-							// startMonth={new Date()}
-							// disabled={{ before: new Date() }}
+							startMonth={new Date()}
+							disabled={{ before: new Date() }}
 						/>
 					</div>
 				</div>

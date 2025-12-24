@@ -1,73 +1,65 @@
-# React + TypeScript + Vite
+# Система управления задачами
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб приложение для управления задачами с канбан доской. Позволяет создавать, редактировать и отслеживать задачи с фильтрацией, поиском и сортировкой.
 
-Currently, two official plugins are available:
+## Описание проекта
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Приложение представляет собой систему управления задачами с визуализацией в виде канбан доски. Задачи можно перемещать между колонками, фильтровать по статусу, приоритету и тегам, а также искать по названию и описанию. Каждая задача имеет статус, приоритет, дедлайн, теги и описание.
 
-## React Compiler
+Система поддерживает работу в двух режимах: онлайн и оффлайн. В онлайн режиме данные синхронизируются с локальным сервером. В оффлайн режиме все данные сохраняются в localStorage браузера. При восстановлении соединения с сервером происходит автоматическая синхронизация данных.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Инструкция по запуску
 
-## Expanding the ESLint configuration
+### Установка зависимостей
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Запуск в режиме разработки
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Для запуска приложения в оффлайн режиме достаточно выполнить:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+Приложение будет доступно по адресу http://localhost:5173
+
+### Запуск с сервером (онлайн режим)
+
+Для работы в онлайн режиме необходимо запустить локальный сервер. В отдельном терминале выполните:
+
+```bash
+npm run server
+```
+
+Сервер будет доступен на порту 3001. После этого запустите приложение:
+
+```bash
+npm run dev
+```
+
+Приложение автоматически определит доступность сервера и будет синхронизировать данные с ним.
+
+### Сборка для продакшена
+
+```bash
+npm run build
+```
+
+Собранные файлы будут находиться в папке `dist`.
+
+## Архитектура проекта
+
+Проект построен на React с TypeScript и использует Vite в качестве сборщика. Интерфейс стилизован с помощью Tailwind CSS и DaisyUI.
+
+Основные компоненты приложения:
+
+-    **Pages** - страницы приложения: главная страница с канбан доской, страница создания задачи, страница просмотра и редактирования задачи
+-    **Components** - переиспользуемые компоненты: канбан доска, карточки задач, фильтры, поиск, модальные окна, формы
+-    **Utils** - утилиты для работы с данными: API клиент для взаимодействия с сервером, функции для работы с localStorage, синхронизация данных между локальным хранилищем и сервером
+
+Приложение использует React Router для навигации между страницами. Для перетаскивания задач используется библиотека dnd kit.
+
+Система хранения данных реализована через два уровня: localStorage для оффлайн работы и REST API сервер для онлайн режима. Приоритет всегда отдается данным из localStorage. При создании или изменении задачи сначала обновляется localStorage, затем происходит попытка синхронизации с сервером. Если сервер недоступен, изменения сохраняются локально и синхронизируются при восстановлении соединения.

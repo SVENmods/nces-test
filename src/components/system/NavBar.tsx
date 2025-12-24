@@ -1,44 +1,28 @@
-import { Link } from 'react-router-dom';
-// import ThemeToggle from './themeToggle';
-import cls from 'classnames';
+import cls from 'classnames'
+import LiveSearch from './LiveSearch'
+import TaskFilters from './TaskFilters'
+import type { TaskFilters as TaskFiltersType } from './TaskFilters'
+import ServerStatusIndicator from './ServerStatusIndicator'
 
 interface NavBarProps {
-	className?: string;
+	className?: string
+	onSearchChange?: (searchQuery: string) => void
+	filters?: TaskFiltersType
+	onFiltersChange?: (filters: TaskFiltersType) => void
 }
 
-const NavBar: React.FC<NavBarProps> = ({ className }) => {
-	const linkStyle: string = 'hover:opacity-70 underline-offset-2 transition duration-300 text-base-content';
+const NavBar: React.FC<NavBarProps> = ({ className, onSearchChange, filters, onFiltersChange }) => {
 	return (
-		<>
-			<div
-				className={cls(
-					className,
-					'flex flex-row justify-between items-center mt-3.5 py-2 border bg-base-200 border-base-content rounded-lg'
-				)}
-			>
-				<nav className='w-full'>
-					<ul className='flex flex-row justify-center gap-x-2'>
-						<li>
-							<Link to='/' className={linkStyle}>
-								home
-							</Link>
-						</li>
-						<li>
-							<Link to='/task' className={linkStyle}>
-								task
-							</Link>
-						</li>
-						<li>
-							<Link to='/createTask' className={linkStyle}>
-								create Task
-							</Link>
-						</li>
-					</ul>
-				</nav>
-				{/* <ThemeToggle /> */}
+		<div className={cls(className, 'flex flex-col gap-2 rounded-lg')}>
+			<div className='flex flex-row flex-wrap justify-between items-end gap-6'>
+				{onSearchChange && <LiveSearch onSearchChange={onSearchChange} />}
+				{filters && onFiltersChange && <TaskFilters filters={filters} onFiltersChange={onFiltersChange} />}
 			</div>
-		</>
-	);
-};
+			<div className='flex justify-end'>
+				<ServerStatusIndicator />
+			</div>
+		</div>
+	)
+}
 
-export default NavBar;
+export default NavBar

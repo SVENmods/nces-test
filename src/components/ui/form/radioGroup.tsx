@@ -1,14 +1,21 @@
 import cls from 'classnames'
 import type { TextInputProps } from '../../../types'
 
-const RadioGroup = ({ name }: TextInputProps) => {
+interface RadioGroupProps extends TextInputProps {
+	defaultValue?: 'low' | 'medium' | 'high'
+}
+
+const RadioGroup = ({ name, defaultValue = 'low' }: RadioGroupProps) => {
 	const radioClasses = 'hidden radio w-[0.1px] h-[0.1px]'
 	const labelClasses = 'cursor-pointer border rounded-lg p-2 transition-all duration-300'
 
 	return (
 		<>
 			<div className='flex flex-col'>
-				<span className='font-normal text-sm'>Priority</span>
+				<span className='font-normal text-sm'>
+					Priority
+					<span className='text-error'>*</span>
+				</span>
 				<div className='flex gap-2 mt-2'>
 					<label
 						htmlFor='priority-low'
@@ -24,7 +31,7 @@ const RadioGroup = ({ name }: TextInputProps) => {
 							className={cls(radioClasses, '')}
 							aria-label='low'
 							value='low'
-							defaultChecked
+							defaultChecked={defaultValue === 'low'}
 							title='Low'
 							id='priority-low'
 						/>
@@ -44,6 +51,7 @@ const RadioGroup = ({ name }: TextInputProps) => {
 							className={radioClasses}
 							aria-label='medium'
 							value='medium'
+							defaultChecked={defaultValue === 'medium'}
 							id='priority-medium'
 						/>
 					</label>
@@ -62,6 +70,7 @@ const RadioGroup = ({ name }: TextInputProps) => {
 							className={radioClasses}
 							aria-label='high'
 							value='high'
+							defaultChecked={defaultValue === 'high'}
 							id='priority-high'
 						/>
 					</label>
