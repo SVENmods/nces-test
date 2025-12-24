@@ -13,13 +13,17 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ className, onSearchChange, filters, onFiltersChange }) => {
 	return (
-		<div className={cls(className, 'flex flex-col gap-2 rounded-lg')}>
-			<div className='flex flex-row flex-wrap justify-between items-end gap-6'>
-				{onSearchChange && <LiveSearch onSearchChange={onSearchChange} />}
-				{filters && onFiltersChange && <TaskFilters filters={filters} onFiltersChange={onFiltersChange} />}
-			</div>
-			<div className='flex justify-end'>
-				<ServerStatusIndicator />
+		<div className={cls(className, 'rounded-lg bg-base-300 mt-10 ')}>
+			<div className='flex flex-col gap-2 mx-auto p-4 w-full max-w-[1440px]'>
+				<div className='flex flex-row flex-wrap justify-between items-end gap-6'>
+					{onSearchChange && <LiveSearch onSearchChange={onSearchChange} />}
+					{filters && onFiltersChange && (
+						<TaskFilters filters={filters} onFiltersChange={onFiltersChange} />
+					)}
+				</div>
+				<div className='flex justify-end mt-4'>
+					<ServerStatusIndicator />
+				</div>
 			</div>
 		</div>
 	)

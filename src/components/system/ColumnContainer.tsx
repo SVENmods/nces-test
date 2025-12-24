@@ -96,7 +96,7 @@ const ColumnContainer = (props: Props) => {
 			<div
 				{...attributes}
 				{...listeners}
-				className='flex xl:flex-row flex-col justify-between items-start gap-3 p-3 border rounded-lg font-bold text-md cursor-grab'
+				className='flex xl:flex-row flex-col justify-between items-start gap-3 p-3 border border-gray-500 rounded-lg font-bold text-md cursor-grab'
 			>
 				<div className='flex gap-2'>
 					<div className='flex justify-center items-center px-2.5 py-1 rounded-full text-lg capitalize'>

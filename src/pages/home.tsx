@@ -33,14 +33,14 @@ const Home = () => {
 	}
 
 	return (
-		<div className='mx-auto mt-10 px-4 px-md-0 w-full max-w-[1440px]'>
+		<div className=''>
 			<NavBar
 				className='top-0 z-11 sticky'
 				onSearchChange={handleSearchChange}
 				filters={filters}
 				onFiltersChange={handleFiltersChange}
 			/>
-			<div className='mt-4'>
+			<div className='mx-auto mt-10 mt-4 px-4 px-md-0 w-full max-w-[1440px]'>
 				<KanbanBoard searchQuery={searchQuery} filters={filters} onTagClick={handleTagClick} />
 			</div>
 		</div>

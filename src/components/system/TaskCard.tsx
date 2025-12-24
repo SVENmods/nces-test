@@ -86,7 +86,7 @@ const TaskCard = ({ task, deleteTask, updateTask, updateTaskStatus, onTagClick, 
 					</Link>
 					<div
 						className={cls(
-							'px-2 py-1 rounded-md text-[.75rem]',
+							'px-2 py-1 rounded-md text-[.75rem] text-white',
 							task.priority === 'low'
 								? 'bg-green-700'
 								: task.priority === 'medium'
