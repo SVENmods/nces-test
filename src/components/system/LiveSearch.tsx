@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useDebounce } from 'use-debounce'
-import Input from '../ui/form/Input'
+import Input from '../ui/form/input'
 
 interface LiveSearchProps {
 	onSearchChange: (searchQuery: string) => void

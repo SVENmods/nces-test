@@ -1,7 +1,7 @@
 import { forwardRef, useState, useRef, useMemo, useEffect, startTransition } from 'react'
 import type { FormEvent } from 'react'
 import type { Task, Id } from '../../types'
-import Input from './form/Input'
+import Input from './form/input'
 import Textarea from './form/textarea'
 import Select from './form/selectStatus'
 import RadioGroup from './form/radioGroup'
@@ -22,7 +22,7 @@ interface Props {
 			priority: string
 			tags: string[]
 			deadline: string
-		}
+		},
 	) => void
 	updateExistingTask?: (
 		taskId: Id,
@@ -33,7 +33,7 @@ interface Props {
 			priority: string
 			tags: string[]
 			deadline: string
-		}
+		},
 	) => void
 }
 
@@ -101,7 +101,7 @@ const Modal = forwardRef<HTMLDialogElement, Props>(
 				}
 
 				const descriptionInput = formRef.current.querySelector(
-					'[name="description"]'
+					'[name="description"]',
 				) as HTMLTextAreaElement
 				if (descriptionInput) {
 					descriptionInput.value = task.description || ''
@@ -371,7 +371,7 @@ const Modal = forwardRef<HTMLDialogElement, Props>(
 				</dialog>
 			</>
 		)
-	}
+	},
 )
 
 Modal.displayName = 'Modal'

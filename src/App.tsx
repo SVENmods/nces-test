@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import Home from './pages/home'
 import CreateTask from './pages/createTask'
-import TaskPage from './pages/Task'
+import TaskPage from './pages/task'
 
 function App() {
 	return (

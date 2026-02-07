@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/nces-test',
+  base: '/kanban-board',
 	plugins: [react(), tailwindcss()],
 	server: {
 		allowedHosts: true,
